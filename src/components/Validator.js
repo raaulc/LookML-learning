@@ -86,7 +86,6 @@ class LookMLParser {
   validateStructure() {
     let braceCount = 0;
     let inBlock = false;
-    let currentBlock = null;
 
     for (const token of this.tokens) {
       switch (token.type) {
@@ -96,7 +95,6 @@ class LookMLParser {
           if (inBlock) {
             throw new Error(`Nested block declaration found: ${token.value}`);
           }
-          currentBlock = token.type;
           inBlock = true;
           break;
 
@@ -118,6 +116,10 @@ class LookMLParser {
             throw new Error('Unmatched closing brace');
           }
           break;
+
+        default:
+          // Handle unexpected token types
+          throw new Error(`Unexpected token type: ${token.type}`);
       }
     }
 
@@ -1303,4 +1305,4 @@ view: orders {
   }
 }
 
-export default Validator; 
+export default Validator;
